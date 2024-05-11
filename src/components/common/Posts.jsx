@@ -3,18 +3,19 @@ import PostSkeleton from "../skeleton/PostSkeleton.jsx";
 import { POSTS } from "../../utils/dummy.js";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { mainApi } from "../../utils/api.js";
 const Posts = ({feedtype,userId}) => {
 	console.log(feedtype);
 	const getEndPoint = () =>{
 		switch (feedtype) {
 			case "foryou":
-				return "api/post/all"
+				return `${mainApi}api/post/all`
 			case "following":
-				return "api/post/following"
+				return `${mainApi}api/post/following`
 			case "posts":
-				return `/api/post/user/${userId}`;
+				return `${mainApi}api/post/user/${userId}`;
 			case "likes":
-				return `/api/post/likepost/${userId}`;
+				return `${mainApi}api/post/likepost/${userId}`;
 			default: 
 				return "api/post/all"
 		}

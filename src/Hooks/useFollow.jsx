@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { mainApi } from "../utils/api";
 
 
 const useFollow = () => {
@@ -10,7 +11,7 @@ const useFollow = () => {
    const {mutate:follow,isPending} = useMutation({
         mutationFn: async (userId) =>{
             try {
-                const res = await fetch(`/api/users/follow/${userId}`,{
+                const res = await fetch(`${mainApi}api/users/follow/${userId}`,{
                     method:"GET",
                 });
                 const data = await res.json();

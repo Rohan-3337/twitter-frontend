@@ -4,6 +4,7 @@ import RightPanelSkeleton from "../skeleton/RightPanelSkeleton";
 import { useQuery } from "@tanstack/react-query";
 
 import SuggestedCard from "./SuggestedCard";
+import { mainApi } from "../../utils/api";
 
 const RightPanel = () => {
 
@@ -11,7 +12,7 @@ const RightPanel = () => {
 		queryKey: ["suggestedUsers"],
 		queryFn: async () => {
 			try {
-				const res = await fetch("/api/users/suggested");
+				const res = await fetch(`${mainApi}api/users/suggested`);
 				const data = await res.json();
 				if (!res.ok) {
 					throw new Error(data.error || "Something went wrong!");

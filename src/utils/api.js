@@ -1,0 +1,1 @@
+export const mainApi =`https://twitter-backend-xvwk.onrender.com/`;

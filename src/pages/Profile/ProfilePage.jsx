@@ -19,6 +19,7 @@ import { formatMemberSinceDate } from "../../utils/date/index.js";
 import useFollow from "../../Hooks/useFollow.jsx"
 
 import useUpdateProfile from "../../Hooks/useUpdateProfile.jsx";
+import { mainApi } from "../../utils/api.js";
 
 const ProfilePage = () => {
 	const [coverImg, setCoverImg] = useState(null);
@@ -43,7 +44,7 @@ const ProfilePage = () => {
 		queryKey: ["userProfile"],
 		queryFn: async () => {
 			try {
-				const res = await fetch(`/api/users/profile/${id}`);
+				const res = await fetch(`${mainApi}api/users/profile/${id}`);
 				const data = await res.json();
 				if(res.status===403){
 					return null;

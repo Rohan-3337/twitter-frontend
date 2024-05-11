@@ -6,6 +6,7 @@ import { FaUser } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { mainApi } from "../../utils/api";
 
 const NotificationPage = () => {
 	const queryClient = useQueryClient(); 
@@ -28,7 +29,7 @@ const NotificationPage = () => {
 	const {mutate:deleteNotifications} = useMutation({
 		mutationFn:async ()=>{
 			try {
-				const res = await fetch(`/api/notification/delete`,{
+				const res = await fetch(`${mainApi}api/notification/delete`,{
 					method:"DELETE",
 
 				})

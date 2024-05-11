@@ -10,6 +10,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import LoadingSpinner from "./LoadingSpinner.jsx"
 import { AiFillHeart } from "react-icons/ai";
 import { formatPostDate } from "../../utils/date/index.js";
+import { mainApi } from "../../utils/api.js";
 
 const Post = ({ post }) => {
 	const [comment, setComment] = useState("");
@@ -19,7 +20,7 @@ const Post = ({ post }) => {
 	const {mutate:deletePost,isPending,} = useMutation({
 		mutationFn:async()=>{
 			try {
-				const res = await fetch(`api/post/delete/${post._id}`,{
+				const res = await fetch(`${mainApi}api/post/delete/${post._id}`,{
 					method:"DELETE",
 				});
 				const data = res.json();

@@ -8,6 +8,7 @@ import { FaUser } from "react-icons/fa";
 import { MdPassword } from "react-icons/md";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import toast from "react-hot-toast";
+import { mainApi } from "../../utils/api.js";
 
 const SingUpPage = () => {
 	const queryClient = useQueryClient();
@@ -20,7 +21,7 @@ const SingUpPage = () => {
 	const {mutate,isError,isPending,error} = useMutation({
 		mutationFn:async({email,username,fullName,password})=>{
 			try {
-				const res = await fetch("/api/auth/singup",{
+				const res = await fetch(`${mainApi}api/auth/singup`,{
 					method: "POST",
 					headers:{
 						"Content-Type": "application/json",
