@@ -13,6 +13,7 @@ import toast, { ToastBar, Toaster } from 'react-hot-toast';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from './components/common/LoadingSpinner.jsx';
 import { useEffect } from 'react';
+import { mainApi } from './utils/api.js';
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
 		queryKey:['authUser'],
 		queryFn:async ()=>{
 			try {
-				const res = await fetch('/api/auth/myprofile');
+				const res = await fetch(`${mainApi}api/auth/myprofile`);
 				const data = await res.json();
 				if(data.error) return null;
 				if(!res.ok) throw new Error(data.error || "Something went wrong");
