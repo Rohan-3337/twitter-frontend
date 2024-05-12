@@ -47,6 +47,10 @@ const Post = ({ post }) => {
 			try {
 				const res = await fetch(`${mainApi}api/post/like/${post._id}`,{
 					method:"GET",
+					headers:{
+						"Content-Type": "application/json"
+						,"auth-token":localStorage.getItem("token"),
+					}
 				});
 				const data = await res.json();
 				if(!res.ok) throw new Error(data.error);
@@ -78,10 +82,11 @@ const Post = ({ post }) => {
 const {mutate:CommentPost,isPending:isCommenting}  = useMutation({
 	mutationFn:async ()=>{
 		try {
-			const res = await fetch(`/api/post/comment/${post._id}`,{
+			const res = await fetch(`${mainApi}/api/post/comment/${post._id}`,{
 				method: 'POST',
 				headers:{
-					"Content-Type": "application/json"
+					"Content-Type": "application/json",
+					"auth-token":localStorage.getItem("token"),
 				},
 				body: JSON.stringify({text:comment})
 			});
