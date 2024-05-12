@@ -14,7 +14,13 @@ const NotificationPage = () => {
 		queryKey:["notifications"],
 		queryFn:async ()=>{
 			try {
-				const res = await fetch(`${mainApi}api/notification`)
+				const res = await fetch(`${mainApi}api/notification`,{
+					method: "GET",
+					headers:{
+						"content-type": "application/json",
+						"auth-token": localStorage.getItem("token"),
+					}
+				})
 			const data = await res.json();
 			if(!res.ok) throw new Error(data.error);
 			return data.notification;
