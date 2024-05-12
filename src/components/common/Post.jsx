@@ -22,6 +22,10 @@ const Post = ({ post }) => {
 			try {
 				const res = await fetch(`${mainApi}api/post/delete/${post._id}`,{
 					method:"DELETE",
+					headers:{"Content-Type": "application/json"
+						,"auth-token":localStorage.getItem("token"),
+					},
+
 				});
 				const data = res.json();
 				if(!res.ok) throw new Error(data.error || "Something went wrong");
