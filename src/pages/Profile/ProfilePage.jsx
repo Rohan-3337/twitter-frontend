@@ -44,7 +44,13 @@ const ProfilePage = () => {
 		queryKey: ["userProfile"],
 		queryFn: async () => {
 			try {
-				const res = await fetch(`${mainApi}api/users/profile/${id}`);
+				const res = await fetch(`${mainApi}api/users/profile/${id}`,{
+					method: "GET",
+					headers:{
+						"Content-Type": "application/json",
+						'auth-token': localStorage.getItem('token'),
+					}
+				});
 				const data = await res.json();
 				if(res.status===403){
 					return null;

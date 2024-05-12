@@ -26,7 +26,9 @@ const LoginPage = () => {
 					body:JSON.stringify({username,password})
 				});
 				const data = await res.json();
-				console.log(data.error);
+				if(data.token){
+					localStorage.setItem("token",data.token);
+				}
 				if(!res.ok) throw new Error(data.error || "Something went wrong");
 				return data;
 			} catch (error) {

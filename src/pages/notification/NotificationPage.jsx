@@ -31,6 +31,10 @@ const NotificationPage = () => {
 			try {
 				const res = await fetch(`${mainApi}api/notification/delete`,{
 					method:"DELETE",
+					headers:{
+						"Content-Type": "application/json",
+						'auth-token': localStorage.getItem('token'),
+					}
 
 				})
 				const data = await res.json();

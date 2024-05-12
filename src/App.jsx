@@ -18,12 +18,21 @@ import { mainApi } from './utils/api.js';
 
 function App() {
 	const navigate = useNavigate();
+	console.log(localStorage.getItem('token'));
 	const {data:authUser,isLoading,isError,error} = useQuery({
 		queryKey:['authUser'],
 		queryFn:async ()=>{
 			try {
-				const res = await fetch(`${mainApi}api/auth/myprofile`);
+				const res = await fetch(`${mainApi}api/auth/myprofile`,{
+					method:"GET",
+					headers:{
+						"Content-Type": "application/json",
+						'auth-token': localStorage.getItem('token'),
+					}
+				});
+
 				const data = await res.json();
+				console.log(data);
 				if(data.error) return null;
 				if(!res.ok) throw new Error(data.error || "Something went wrong");
 				const {user} =data;

@@ -11,28 +11,10 @@ import { mainApi } from "../../utils/api.js";
 
 const Sidebar = () => {
 	const queryClient = useQueryClient();
-	const { mutate: logout } = useMutation({
-		mutationFn: async () => {
-			try {
-				const res = await fetch(`${mainApi}api/auth/logout`, {
-					method: "POST",
-				});
-				const data = await res.json();
-
-				if (!res.ok) {
-					throw new Error(data.error || "Something went wrong");
-				}
-			} catch (error) {
-				throw new Error(error);
-			}
-		},
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["authUser"] });
-		},
-		onError: () => {
-			toast.error("Logout failed");
-		},
-	});
+	const logout = ()=>{
+		localStorage.removeItem("token");
+		queryClient.invalidateQueries({queryKey:["authUser"]});
+	}
 	const {data} = useQuery({queryKey: ["authUser"]});
 	
 

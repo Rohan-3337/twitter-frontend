@@ -12,7 +12,13 @@ const RightPanel = () => {
 		queryKey: ["suggestedUsers"],
 		queryFn: async () => {
 			try {
-				const res = await fetch(`${mainApi}api/users/suggested`);
+				const res = await fetch(`${mainApi}api/users/suggested`,{
+					method: "GET",
+					headers:{
+						"Content-Type": "application/json",
+						'auth-token': localStorage.getItem('token'),
+					}
+				});
 				const data = await res.json();
 				if (!res.ok) {
 					throw new Error(data.error || "Something went wrong!");

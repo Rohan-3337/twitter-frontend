@@ -10,8 +10,9 @@ const useUpdateProfile = (formdata) => {
 			try {
 				const res = await fetch(`${mainApi}api/users/update`, {
 					method: "PUT",
-					headers: {
+					headers:{
 						"Content-Type": "application/json",
+						'auth-token': localStorage.getItem('token'),
 					},
 					body: JSON.stringify(formData),
 				});

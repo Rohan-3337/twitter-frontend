@@ -25,11 +25,14 @@ const SingUpPage = () => {
 					method: "POST",
 					headers:{
 						"Content-Type": "application/json",
+						"auth-token":localStorage.getItem("token"),
 					},
 					body:JSON.stringify({email,username,fullName,password}),
 				})
 				const data = await res.json();
-				console.log(data)
+				if(data.token){
+					localStorage.setItem("token",data.token);
+				}
 				if(!res.ok) throw new Error(data.error);
 				if(data.error) throw new Error(data.error);
 				return data;

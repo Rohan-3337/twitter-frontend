@@ -17,7 +17,7 @@ const Posts = ({feedtype,userId}) => {
 			case "likes":
 				return `${mainApi}api/post/likepost/${userId}`;
 			default: 
-				return "api/post/all"
+				return `${mainApi}api/post/all`
 		}
 	}
 	const Post_ENDPOINT = getEndPoint();
@@ -25,7 +25,13 @@ const Posts = ({feedtype,userId}) => {
 		queryKey:["posts"],
 		queryFn:async()=>{
 			try {
-				const res = await fetch(Post_ENDPOINT);
+				const res = await fetch(Post_ENDPOINT,{
+					method:"GET",
+					headers:{
+						"Content-Type": "application/json",
+						'auth-token': localStorage.getItem('token'),
+					}
+				});
 				const data = await res.json();
 				if(res.status===403){
 					return null;
