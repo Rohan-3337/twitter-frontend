@@ -82,7 +82,7 @@ const Post = ({ post }) => {
 const {mutate:CommentPost,isPending:isCommenting}  = useMutation({
 	mutationFn:async ()=>{
 		try {
-			const res = await fetch(`${mainApi}/api/post/comment/${post._id}`,{
+			const res = await fetch(`${mainApi}api/post/comment/${post._id}`,{
 				method: 'POST',
 				headers:{
 					"Content-Type": "application/json",
