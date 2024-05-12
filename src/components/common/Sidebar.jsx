@@ -7,12 +7,12 @@ import { Link } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 import {  useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { mainApi } from "../../utils/api.js";
 
 const Sidebar = () => {
 	const queryClient = useQueryClient();
 	const logout = ()=>{
 		localStorage.removeItem("token");
+		toast.success("logged out");
 		queryClient.invalidateQueries({queryKey:["authUser"]});
 	}
 	const {data} = useQuery({queryKey: ["authUser"]});

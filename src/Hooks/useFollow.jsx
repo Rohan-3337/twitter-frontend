@@ -13,6 +13,10 @@ const useFollow = () => {
             try {
                 const res = await fetch(`${mainApi}api/users/follow/${userId}`,{
                     method:"GET",
+                    headers:{
+						"Content-Type": "application/json",
+						'auth-token': localStorage.getItem('token'),
+					}
                 });
                 const data = await res.json();
                

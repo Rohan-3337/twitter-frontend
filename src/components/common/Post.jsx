@@ -45,7 +45,7 @@ const Post = ({ post }) => {
 	const {mutate:like, isPending:isLiking} = useMutation({
 		mutationFn:async () =>{
 			try {
-				const res = await fetch(`/api/post/like/${post._id}`,{
+				const res = await fetch(`${mainApi}api/post/like/${post._id}`,{
 					method:"GET",
 				});
 				const data = await res.json();
@@ -58,10 +58,8 @@ const Post = ({ post }) => {
 			}
 		},
 		onSuccess: (updateLikes) => {
-			// this is not the best UX, bc it will refetch all posts
-			// queryClient.invalidateQueries({ queryKey: ["posts"] });
-
-			// instead, update the cache directly for that post
+			
+		
 			queryClient.setQueryData(["posts"], (oldData) => {
 				return oldData.map((p) => {
 					if (p._id === post._id) {
