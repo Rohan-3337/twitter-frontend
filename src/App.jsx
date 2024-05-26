@@ -1,6 +1,6 @@
 
 
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Sidebar from "./components/common/Sidebar.jsx"
 import './App.css'
 import LoginPage from './pages/Auth/LoginPage';
@@ -14,10 +14,13 @@ import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from './components/common/LoadingSpinner.jsx';
 import { useEffect } from 'react';
 import { mainApi } from './utils/api.js';
-
+import Follower from './pages/Followers/Follower.jsx';
+import ErrorBoundary from './ErrorBoundary.jsx';
+import Following from './pages/Followers/Following.jsx';
+import BlockPage from './pages/blockedpage/BlockPage.jsx';
 
 function App() {
-	const navigate = useNavigate();
+	
 	console.log(localStorage.getItem('token'));
 	const {data:authUser,isLoading,isError,error} = useQuery({
 		queryKey:['authUser'],
@@ -32,7 +35,7 @@ function App() {
 				});
 
 				const data = await res.json();
-				console.log(data);
+			
 				if(data.error) return null;
 				if(!res.ok) throw new Error(data.error || "Something went wrong");
 				const {user} =data;
@@ -58,14 +61,21 @@ function App() {
 	return (
 		<div className='flex max-w-6xl mx-auto'>
 				{authUser &&<Sidebar/>}
+
+				<ErrorBoundary>
 			<Routes>
+
 				<Route path='/' element={authUser?<HomePage />:<Navigate to={"/login"}/>} />
         
 				<Route path='/singup' element={!authUser?<SingUpPage />:<Navigate to={"/"}/>} />
 				<Route path='/login' element={!authUser?<LoginPage />:<Navigate to={"/"}/>} />
 				<Route path='/notifications' element={authUser?<NotificationPage/>:<Navigate to={"/login"}/>}/>
 				<Route path='/profile/:id' element={authUser? <ProfilePage/>:<Navigate to={"/login"}/>}/>
+				<Route path='/followers/:id' element={authUser ?<Follower/>:<Navigate to={"/login"}/>} />
+				<Route path='/following/:id' element={authUser?<Following/>:<Navigate to={"/login"}/>}/>
+				<Route path='/blockedusers' element={authUser?<BlockPage/>:<Navigate to={"/login"}/>}/>
 			</Routes>
+				</ErrorBoundary>
 			{authUser &&<RightPanel/>}
 			<Toaster/>
 		

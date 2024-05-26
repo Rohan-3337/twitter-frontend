@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import useFollow from '../../Hooks/useFollow';
 import LoadingSpinner from './LoadingSpinner';
-import { TiTick } from 'react-icons/ti';
 
 const SuggestedCard = ({user}) => {
     const {follow,isPending} = useFollow();

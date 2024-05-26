@@ -5,7 +5,6 @@ import Posts from "../../components/common/Posts";
 
 import EditProfileModal from "./EditProfileModal";
 
-import { POSTS } from "../../utils/dummy.js";
 
 import { CiMenuKebab } from "react-icons/ci";
 
@@ -20,12 +19,14 @@ import useFollow from "../../Hooks/useFollow.jsx"
 
 import useUpdateProfile from "../../Hooks/useUpdateProfile.jsx";
 import { mainApi } from "../../utils/api.js";
+import useBlock from "../../Hooks/useBlock.jsx";
 
 const ProfilePage = () => {
 	const [coverImg, setCoverImg] = useState(null);
 	const [profileImg, setProfileImg] = useState(null);
 	const [feedType, setFeedType] = useState("posts");
 	const {follow,isPending} = useFollow();
+	const {block,isPending:isblocking} =useBlock();
 	const coverImgRef = useRef(null);
 	const profileImgRef = useRef(null);
 
@@ -83,7 +84,7 @@ const ProfilePage = () => {
 	};
 	
 
-	const amIFollowing = authUser?.following.includes(user?._id);
+	
 	
 
 	useEffect(()=>{
@@ -94,11 +95,11 @@ const ProfilePage = () => {
 		<>
 			<div className='flex-[4_4_0]  border-r border-gray-700 min-h-screen '>
 				{/* HEADER */}
-				{isLoading ||isRefetching && <ProfileHeaderSkeleton />}
+				{isLoading ||isRefetching || isblocking && <ProfileHeaderSkeleton />}
                 
 				{!isLoading && !isRefetching &&  !user && <p className='text-center text-lg mt-4'>User not found</p>}
 				<div className='flex flex-col'>
-					{!isLoading &&!isRefetching&& user && (
+					{!isLoading &&!isRefetching&& !isblocking&& user && (
 						<>
 							<div className='flex gap-10 px-4 py-2 items-center justify-between'>
 								<Link to='/'>
@@ -106,7 +107,7 @@ const ProfilePage = () => {
 								</Link>
 								<div className='flex flex-col'>
 									<p className='font-bold text-lg'>{user?.fullName}</p>
-									<span className='text-sm text-slate-500'>{POSTS?.length} posts</span>
+									<span className='text-sm text-slate-500'>{user.postLength} posts</span>
 								</div>
 								<div className='dropdown '>
 						<div tabIndex={0} role='button' className='m-1'>
@@ -117,7 +118,7 @@ const ProfilePage = () => {
 							className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52'
 						>
 							<li>
-								<a onClick={()=>alert("clicked block")}>Block user</a>
+								<a onClick={()=> block(user?._id)}>Block user</a>
 							</li>
 						</ul>
 					</div>
@@ -219,14 +220,14 @@ const ProfilePage = () => {
 									</div>
 								</div>
 								<div className='flex gap-2'>
-									<div className='flex gap-1 items-center'>
-										<span className='font-bold text-xs'>{user?.following.length}</span>
-										<span className='text-slate-500 text-xs'>Following</span>
-									</div>
-									<div className='flex gap-1 items-center'>
+									<Link className='flex gap-1 items-center' to={`/followers/${user?._id}`}>
 										<span className='font-bold text-xs'>{user?.followers.length}</span>
 										<span className='text-slate-500 text-xs'>Followers</span>
-									</div>
+									</Link>
+									<Link className='flex gap-1 items-center' to={`/following/${user?._id}`}>
+										<span className='font-bold text-xs'>{user?.following.length}</span>
+										<span className='text-slate-500 text-xs'>Following</span>
+									</Link>
 								</div>
 							</div>
 							<div className='flex w-full border-b border-gray-700 mt-4'>

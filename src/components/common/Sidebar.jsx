@@ -5,7 +5,8 @@ import { IoNotifications } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
-import {  useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {  useQuery, useQueryClient } from "@tanstack/react-query";
+import { FaUserSlash } from "react-icons/fa";
 import toast from "react-hot-toast";
 
 const Sidebar = () => {
@@ -21,7 +22,10 @@ const Sidebar = () => {
 	
 	
 	
-	const options = [{name:"Home",icon:<MdHomeFilled className="w-8 h-8"/>,link:"/"},{name:"Notifications",icon:<IoNotifications className="w-8 h-8"/>,link:"/notifications"},{name:"Profile",icon:<FaUser className=" w-8 h-8"/>,link:`/profile/${data?._id}`}];
+	const options = [{name:"Home",icon:<MdHomeFilled className="w-8 h-8"/>,link:"/"},{name:"Notifications",icon:<IoNotifications className="w-8 h-8"/>,link:"/notifications"},{name:"Profile",icon:<FaUser className=" w-8 h-8"/>,link:`/profile/${data?._id}`},
+{
+	name:"Blocked",icon:<FaUserSlash className="w-8 h-8"/>,link:"/blockedusers"
+}];
 
 	return (
 		<div className='md:flex-[2_2_0] w-18 max-w-52'>
