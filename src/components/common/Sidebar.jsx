@@ -1,7 +1,7 @@
 import XSvg from "../svg/X.jsx";
 
 import { MdHomeFilled } from "react-icons/md";
-import { IoNotifications } from "react-icons/io5";
+import { IoBookmark, IoNotifications } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
@@ -25,6 +25,9 @@ const Sidebar = () => {
 	const options = [{name:"Home",icon:<MdHomeFilled className="w-8 h-8"/>,link:"/"},{name:"Notifications",icon:<IoNotifications className="w-8 h-8"/>,link:"/notifications"},{name:"Profile",icon:<FaUser className=" w-8 h-8"/>,link:`/profile/${data?._id}`},
 {
 	name:"Blocked",icon:<FaUserSlash className="w-8 h-8"/>,link:"/blockedusers"
+},
+{
+	name:"Bookmark",icon:<IoBookmark className="w-8 h-8"/>,link:"/bookmark"
 }];
 
 	return (

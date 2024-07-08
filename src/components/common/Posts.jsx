@@ -4,8 +4,9 @@ import { POSTS } from "../../utils/dummy.js";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { mainApi } from "../../utils/api.js";
+import Retweet from "./Retweet.jsx";
 const Posts = ({feedtype,userId}) => {
-	console.log(feedtype);
+	
 	const getEndPoint = () =>{
 		switch (feedtype) {
 			case "foryou":
@@ -16,6 +17,8 @@ const Posts = ({feedtype,userId}) => {
 				return `${mainApi}api/post/user/${userId}`;
 			case "likes":
 				return `${mainApi}api/post/likepost/${userId}`;
+			case "bookmark":
+				return `${mainApi}api/users/get-save`;
 			default: 
 				return `${mainApi}api/post/all`
 		}
@@ -37,7 +40,8 @@ const Posts = ({feedtype,userId}) => {
 					return null;
 				}
 				if(!res.ok) throw new Error(data.error);
-				const post =data.post || data.followingFeed || data.likedPosts;
+				console.log(data);
+				const post =data.post || data.followingFeed || data.likedPosts || data.savePosts;
 				
 				return post;
 			} catch (error) {
@@ -63,9 +67,19 @@ const Posts = ({feedtype,userId}) => {
 			{!isLoading && !isRefetching&& posts?.length === 0 && <p className='text-center my-4'>No posts in this tab. Switch 👻</p>}
 			{!isLoading&& !isRefetching && posts && (
 				<div>
-					{posts?.map((post) => (
-						<Post key={post._id} post={post} />
-					))}
+					{posts.map((post) => {
+                        
+						if (post.type === 'post') {
+                            return <Post key={post._id} post={post} />;
+                        }
+                        
+
+                        
+                       
+                        
+                    })}
+					
+
 				</div>
 			)}
 		</>

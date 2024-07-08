@@ -18,6 +18,7 @@ import Follower from './pages/Followers/Follower.jsx';
 import ErrorBoundary from './ErrorBoundary.jsx';
 import Following from './pages/Followers/Following.jsx';
 import BlockPage from './pages/blockedpage/BlockPage.jsx';
+import Bookmark from './pages/bookmark/Bookmark.jsx';
 
 function App() {
 	
@@ -74,6 +75,7 @@ function App() {
 				<Route path='/followers/:id' element={authUser ?<Follower/>:<Navigate to={"/login"}/>} />
 				<Route path='/following/:id' element={authUser?<Following/>:<Navigate to={"/login"}/>}/>
 				<Route path='/blockedusers' element={authUser?<BlockPage/>:<Navigate to={"/login"}/>}/>
+				<Route path='/bookmark' element={authUser?<Bookmark/>:<Navigate to={"/login"}/>}/>
 			</Routes>
 				</ErrorBoundary>
 			{authUser &&<RightPanel/>}

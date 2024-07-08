@@ -2,6 +2,7 @@ import { FaRegComment } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
+import { GoBookmarkFill } from "react-icons/go";
 import { FaTrash } from "react-icons/fa";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -11,10 +12,12 @@ import LoadingSpinner from "./LoadingSpinner.jsx"
 import { AiFillHeart } from "react-icons/ai";
 import { formatPostDate } from "../../utils/date/index.js";
 import { mainApi } from "../../utils/api.js";
+import useBookmark from "../../Hooks/useBookmark.jsx";
 
 const Post = ({ post }) => {
 	const [comment, setComment] = useState("");
 	const{data:authUser}=useQuery({queryKey:["authUser"]});
+	
 	const queryClient = useQueryClient();
 	{/* Delete Functionality*/ }
 	const {mutate:deletePost,isPending,} = useMutation({
@@ -108,17 +111,21 @@ const {mutate:CommentPost,isPending:isCommenting}  = useMutation({
 		toast.error(error.message);
 	}
 })
+const {savePosts,isPending:issavePosting} = useBookmark();
 
 	const postOwner = post?.user;
 	const isLiked = post?.likes.includes(authUser?._id);
 
 	const isMyPost = authUser?._id === post?.user?._id;
-	
+	const checkbookmark = authUser?.savePosts?.includes(post?._id);
 
 	const formattedDate = formatPostDate(post?.createdAt);
 
 	
-
+	const handleBookmark = (userId) =>{
+		if(issavePosting) return;
+		savePosts(userId);
+	}
 	const handleDeletePost = () => {
 		deletePost();
 	};
@@ -259,8 +266,14 @@ const {mutate:CommentPost,isPending:isCommenting}  = useMutation({
 								</span>
 							</div>
 						</div>
-						<div className='flex w-1/3 justify-end gap-2 items-center'>
-							<FaRegBookmark className='w-4 h-4 text-slate-500 cursor-pointer' />
+						<div className='flex w-1/3 justify-end gap-2 items-center' onClick={()=>savePosts(post?._id)}>
+						{issavePosting && <LoadingSpinner size="sm"/>}
+						{
+							!issavePosting && checkbookmark && <GoBookmarkFill className='w-4 h-4 text-slate-500 cursor-pointer' fill="rgb(29, 155, 240)"/>
+						}
+						{
+							!issavePosting && !checkbookmark && <FaRegBookmark className='w-4 h-4 text-slate-500 cursor-pointer'/>
+						}
 						</div>
 					</div>
 				</div>
