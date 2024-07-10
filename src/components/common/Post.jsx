@@ -13,6 +13,7 @@ import { AiFillHeart } from "react-icons/ai";
 import { formatPostDate } from "../../utils/date/index.js";
 import { mainApi } from "../../utils/api.js";
 import useBookmark from "../../Hooks/useBookmark.jsx";
+import useRetweet from "../../Hooks/useRetweet.jsx";
 
 const Post = ({ post }) => {
 	const [comment, setComment] = useState("");
@@ -115,6 +116,7 @@ const {savePosts,isPending:issavePosting} = useBookmark();
 
 	const postOwner = post?.user;
 	const isLiked = post?.likes.includes(authUser?._id);
+	const {isRetweeting,Retweet} = useRetweet();
 
 	const isMyPost = authUser?._id === post?.user?._id;
 	const checkbookmark = authUser?.savePosts?.includes(post?._id);
@@ -129,7 +131,12 @@ const {savePosts,isPending:issavePosting} = useBookmark();
 	const handleDeletePost = () => {
 		deletePost();
 	};
+	const handleRetweet = (postId) =>{
+		if(isRetweeting) return;
 
+		Retweet(postId);
+		
+	}
 	const handlePostComment = (e) => {
 		e.preventDefault();
 		if(isCommenting) return;
@@ -246,9 +253,10 @@ const {savePosts,isPending:issavePosting} = useBookmark();
 									<button className='outline-none'>close</button>
 								</form>
 							</dialog>
-							<div className='flex gap-1 items-center group cursor-pointer'>
-								<BiRepost className='w-6 h-6  text-slate-500 group-hover:text-green-500' />
-								<span className='text-sm text-slate-500 group-hover:text-green-500'>0</span>
+							<div className='flex gap-1 items-center group cursor-pointer' onClick={()=>handleRetweet(post?._id)}>
+							{isRetweeting && <LoadingSpinner size="sm"/>}
+							{	!isRetweeting && <BiRepost className={`w-6 h-6   group-hover:text-green-500 text-slate-500 `} />}
+								<span className='text-sm text-slate-500 group-hover:text-green-500'>{post?.TotalRetweet}</span>
 							</div>
 							<div className='flex gap-1 items-center group cursor-pointer' onClick={handleLikePost}>
 								{isLiking && <LoadingSpinner size="sm"/>}
@@ -266,7 +274,7 @@ const {savePosts,isPending:issavePosting} = useBookmark();
 								</span>
 							</div>
 						</div>
-						<div className='flex w-1/3 justify-end gap-2 items-center' onClick={()=>savePosts(post?._id)}>
+						<div className='flex w-1/3 justify-end gap-2 items-center' onClick={()=>handleBookmark(post?._id)}>
 						{issavePosting && <LoadingSpinner size="sm"/>}
 						{
 							!issavePosting && checkbookmark && <GoBookmarkFill className='w-4 h-4 text-slate-500 cursor-pointer' fill="rgb(29, 155, 240)"/>

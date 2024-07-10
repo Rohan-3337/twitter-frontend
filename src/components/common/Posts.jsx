@@ -72,7 +72,9 @@ const Posts = ({feedtype,userId}) => {
 						if (post.type === 'post') {
                             return <Post key={post._id} post={post} />;
                         }
-                        
+                        if(post.type ==="retweet"){
+							return <Retweet key={post._id} post={post} />;
+						}
 
                         
                        
